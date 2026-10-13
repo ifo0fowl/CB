@@ -13719,12 +13719,40 @@ wax.shared.ScreenGui = ScreenGui
 
 local MainFrame = Interface.New("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
-	BackgroundColor3 = Color3.fromRGB(15, 15, 15),
+	BackgroundColor3 = Color3.fromRGB(18, 18, 23),
+	BorderSizePixel = 0,
 	Position = UDim2.fromScale(0.5, 0.5),
-	Size = UDim2.fromOffset(640, 420),
+	Size = UDim2.fromOffset(680, 440),
 	ZIndex = 0,
 
 	Constants.MainUICorner,
+	["UIStroke"] = {
+		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+		Color = Color3.fromRGB(44, 44, 56),
+		Transparency = 0.25,
+		Thickness = 1,
+	},
+	["Frame"] = {
+		Name = "AccentLine",
+		BackgroundColor3 = Color3.fromRGB(88, 132, 255),
+		BorderSizePixel = 0,
+		AnchorPoint = Vector2.new(0.5, 0),
+		Position = UDim2.new(0.5, 0, 0, 0),
+		Size = UDim2.new(1, -24, 0, 2),
+		BackgroundTransparency = 0.15,
+
+		["UICorner"] = {
+			CornerRadius = UDim.new(1, 0),
+		},
+		["UIGradient"] = {
+			Transparency = NumberSequence.new({
+				NumberSequenceKeypoint.new(0, 1),
+				NumberSequenceKeypoint.new(0.2, 0),
+				NumberSequenceKeypoint.new(0.8, 0),
+				NumberSequenceKeypoint.new(1, 1),
+			}),
+		},
+	},
 	Parent = ScreenGui,
 })
 do
@@ -13742,9 +13770,11 @@ end
 --// Minimized \\--
 local ShowButton = Interface.New("TextButton", {
 	AnchorPoint = Vector2.new(0.5, 0),
-	BackgroundColor3 = Color3.fromRGB(15, 15, 15),
+	AutoButtonColor = false,
+	BackgroundColor3 = Color3.fromRGB(24, 24, 31),
+	BorderSizePixel = 0,
 	Position = UDim2.new(0.5, 0, 0, 36),
-	Size = UDim2.fromOffset(36, 36),
+	Size = UDim2.fromOffset(40, 40),
 	Text = "",
 	Visible = false,
 
@@ -13753,12 +13783,14 @@ local ShowButton = Interface.New("TextButton", {
 		BackgroundTransparency = 1,
 		Image = CobaltLogo,
 		Position = UDim2.fromScale(0.5, 0.5),
-		Size = UDim2.new(1, -10, 1, -10),
+		Size = UDim2.new(1, -12, 1, -12),
 	},
 
 	["UIStroke"] = {
 		ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-		Color = Color3.new(1, 1, 1),
+		Color = Color3.fromRGB(88, 132, 255),
+		Transparency = 0.6,
+		Thickness = 1,
 	},
 
 	Constants.MainUICorner,
@@ -16751,10 +16783,10 @@ type Validator = {
 }
 
 --// Constants \\--
-local BackgroundColor = Color3.fromRGB(15, 15, 15)
-local BorderColor = Color3.fromRGB(35, 35, 35)
-local LineColor = Color3.fromRGB(60, 60, 60)
-local ErrorColor = Color3.fromRGB(245, 60, 54)
+local BackgroundColor = Color3.fromRGB(18, 18, 23)
+local BorderColor = Color3.fromRGB(44, 44, 56)
+local LineColor = Color3.fromRGB(88, 132, 255)
+local ErrorColor = Color3.fromRGB(255, 92, 92)
 
 local Actions = {
 	{ Value = "Ignore", Text = "Ignore matching calls" },
@@ -18331,31 +18363,43 @@ return function(props: {
 
 	--// UI \\--
 	local TopBar = Interface.New("Frame", {
-		BackgroundColor3 = Color3.fromRGB(25, 25, 25),
-		Size = UDim2.new(1, 0, 0, 36),
+		BackgroundColor3 = Color3.fromRGB(24, 24, 31),
+		BorderSizePixel = 0,
+		Size = UDim2.new(1, 0, 0, 40),
 		ZIndex = 0,
 		Parent = MainFrame,
 
 		["TextLabel"] = {
+			Font = Enum.Font.GothamMedium,
 			Text = "Cobalt",
-			TextSize = 18,
-			Position = UDim2.fromOffset(0, 1),
-			Size = UDim2.new(1, 0, 1, -1),
+			TextColor3 = Color3.fromRGB(235, 238, 245),
+			TextSize = 15,
+			TextXAlignment = Enum.TextXAlignment.Left,
+			BackgroundTransparency = 1,
+			Position = UDim2.fromOffset(34, 1),
+			Size = UDim2.new(1, -34, 1, -1),
 		},
 
 		["ImageLabel"] = {
 			AnchorPoint = Vector2.new(0, 0.5),
-			Position = UDim2.new(0, 6, 0.5, 0),
-			Size = UDim2.new(1, -12, 1, -12),
-			SizeConstraint = Enum.SizeConstraint.RelativeYY,
+			BackgroundTransparency = 1,
+			Position = UDim2.new(0, 10, 0.5, 0),
+			Size = UDim2.new(0, 20, 0, 20),
 			Image = props.CobaltLogo,
 		},
 
 		["UICorner"] = {
-			TopLeftRadius = UDim.new(0, 6),
-			TopRightRadius = UDim.new(0, 6),
+			TopLeftRadius = UDim.new(0, 10),
+			TopRightRadius = UDim.new(0, 10),
 			BottomLeftRadius = UDim.new(0, 0),
 			BottomRightRadius = UDim.new(0, 0),
+		},
+
+		["UIStroke"] = {
+			ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+			Color = Color3.fromRGB(44, 44, 56),
+			Transparency = 0.4,
+			Thickness = 1,
 		},
 	})
 
@@ -18382,22 +18426,30 @@ return function(props: {
 	--// Functions \\--
 	local function CreateTopButton(IconName: string, Order: number, Callback: (() -> ())?)
 		local Button = Interface.New("ImageButton", {
+			AutoButtonColor = false,
+			BackgroundColor3 = Color3.fromRGB(24, 24, 31),
+			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
 			LayoutOrder = Order,
 			Size = UDim2.fromScale(1, 1),
 			SizeConstraint = Enum.SizeConstraint.RelativeYY,
 
+			["UICorner"] = {
+				CornerRadius = UDim.new(0, 8),
+			},
+
 			["UIPadding"] = {
-				PaddingBottom = UDim.new(0, 3),
-				PaddingLeft = UDim.new(0, 3),
-				PaddingRight = UDim.new(0, 3),
-				PaddingTop = UDim.new(0, 3),
+				PaddingBottom = UDim.new(0, 6),
+				PaddingLeft = UDim.new(0, 6),
+				PaddingRight = UDim.new(0, 6),
+				PaddingTop = UDim.new(0, 6),
 			},
 
 			Parent = TopButtons,
 		})
 
 		local Image = Interface.NewIcon(IconName, {
-			IconTransparency = 0.5,
+			IconTransparency = 0.35,
 			Size = UDim2.fromScale(1, 1),
 			SizeConstraint = Enum.SizeConstraint.RelativeYY,
 
@@ -18407,10 +18459,17 @@ return function(props: {
 		Button.MouseEnter:Connect(function()
 			wax.shared.TweenService
 				:Create(
+					Button,
+					Constants.DefaultTweenInfo,
+					{ BackgroundTransparency = 0 }
+				)
+				:Play()
+			wax.shared.TweenService
+				:Create(
 					Image,
 					Constants.DefaultTweenInfo,
 					Icons.ResolveProperties(Image.ClassName, {
-						IconTransparency = 0.25,
+						IconTransparency = 0,
 					})
 				)
 				:Play()
@@ -18419,10 +18478,17 @@ return function(props: {
 		Button.MouseLeave:Connect(function()
 			wax.shared.TweenService
 				:Create(
+					Button,
+					Constants.DefaultTweenInfo,
+					{ BackgroundTransparency = 1 }
+				)
+				:Play()
+			wax.shared.TweenService
+				:Create(
 					Image,
 					Constants.DefaultTweenInfo,
 					Icons.ResolveProperties(Image.ClassName, {
-						IconTransparency = 0.5,
+						IconTransparency = 0.35,
 					})
 				)
 				:Play()
@@ -18548,10 +18614,23 @@ local AssetManager = require("@src/Utils/UI/Assets/Manager")
 local Constants = {}
 
 Constants.MainUICorner = Interface.New("UICorner", {
-	CornerRadius = UDim.new(0, 6),
+	CornerRadius = UDim.new(0, 10),
 })
 
-Constants.DefaultTweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Exponential)
+Constants.CardCorner = Interface.New("UICorner", {
+	CornerRadius = UDim.new(0, 8),
+})
+
+Constants.Bg = Color3.fromRGB(18, 18, 23)
+Constants.Panel = Color3.fromRGB(24, 24, 31)
+Constants.PanelSoft = Color3.fromRGB(28, 28, 37)
+Constants.Stroke = Color3.fromRGB(44, 44, 56)
+Constants.Accent = Color3.fromRGB(88, 132, 255)
+Constants.AccentDim = Color3.fromRGB(88, 132, 255)
+Constants.TextDim = Color3.fromRGB(168, 175, 190)
+Constants.TextBright = Color3.fromRGB(235, 238, 245)
+
+Constants.DefaultTweenInfo = TweenInfo.new(0.22, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
 
 Constants.InstanceClassImages = AssetManager.GetInstanceClassImages()
 
@@ -23592,35 +23671,48 @@ return function(props: {
 
 	function List:CreateLogButton(Log): (TextButton, TextLabel, TextLabel)
 		local Button = Interface.New("TextButton", {
-			BackgroundColor3 = Color3.fromRGB(50, 50, 50),
+			AutoButtonColor = false,
+			BackgroundColor3 = Color3.fromRGB(28, 28, 37),
 			BackgroundTransparency = 1,
+			BorderSizePixel = 0,
 			LayoutOrder = Log.Index or 1,
-			Size = UDim2.new(1, 0, 0, 30),
+			Size = UDim2.new(1, 0, 0, 32),
 			Text = "",
 
 			["ImageLabel"] = {
+				BackgroundTransparency = 1,
 				Image = Constants.InstanceClassImages[Log.Instance.ClassName],
+				ImageTransparency = 0.15,
 				Size = UDim2.fromScale(1, 1),
 				SizeConstraint = Enum.SizeConstraint.RelativeYY,
 			},
 
 			["UICorner"] = {
-				CornerRadius = UDim.new(0, 4),
+				CornerRadius = UDim.new(0, 8),
+			},
+
+			["UIStroke"] = {
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+				Color = Color3.fromRGB(44, 44, 56),
+				Transparency = 0.75,
+				Thickness = 1,
 			},
 
 			["UIPadding"] = {
-				PaddingLeft = UDim.new(0, 6),
-				PaddingRight = UDim.new(0, 6),
+				PaddingLeft = UDim.new(0, 8),
+				PaddingRight = UDim.new(0, 8),
 				PaddingTop = UDim.new(0, 6),
 				PaddingBottom = UDim.new(0, 6),
 			},
 		})
 
 		local Name = Interface.New("TextLabel", {
-			Position = UDim2.fromOffset(24, 0),
-			Size = UDim2.new(1, -24, 1, 0),
+			Font = Enum.Font.GothamMedium,
+			Position = UDim2.fromOffset(26, 0),
+			Size = UDim2.new(1, -26, 1, 0),
 			Text = "",
-			TextSize = 15,
+			TextColor3 = Color3.fromRGB(235, 238, 245),
+			TextSize = 13,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextTruncate = Enum.TextTruncate.AtEnd,
 
@@ -23628,9 +23720,11 @@ return function(props: {
 		})
 
 		local Calls = Interface.New("TextLabel", {
+			Font = Enum.Font.Gotham,
 			Size = UDim2.fromScale(1, 1),
 			Text = "",
-			TextSize = 15,
+			TextColor3 = Color3.fromRGB(88, 132, 255),
+			TextSize = 12,
 			TextXAlignment = Enum.TextXAlignment.Right,
 
 			Parent = Button,
